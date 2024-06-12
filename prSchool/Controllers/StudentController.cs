@@ -7,9 +7,9 @@ namespace prSchool.Controllers
 {
     public class StudentController : Controller
     {
-        private IStudentService<StudentDto> _studentService;
+        private IStudentService<StudentDto, StudentInsertDto> _studentService;
 
-        public StudentController(IStudentService<StudentDto> studentService)
+        public StudentController(IStudentService<StudentDto, StudentInsertDto> studentService)
         {
             _studentService = studentService;
         }
@@ -18,6 +18,16 @@ namespace prSchool.Controllers
         {
             var student = await _studentService.Get();
             return View(student);
+        }
+
+        public async Task<ActionResult>Add(StudentInsertDto studentInsertDto){
+            if (!ModelState.IsValid) { 
+                return View(studentInsertDto); 
+            }
+            var student=await _studentService.Add(studentInsertDto);
+
+            return RedirectToAction(nameof(Index));
+            
         }
     }
 }

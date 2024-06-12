@@ -13,5 +13,8 @@ namespace prSchool.Repository
         }
         public async Task<IEnumerable<Student>> Get() => await _context.Student.ToListAsync();
 
+        public async Task Add (Student student)=> await _context.Student.AddAsync(student);
+
+        public async Task Save()=>await _context.SaveChangesAsync();
     }
 }
