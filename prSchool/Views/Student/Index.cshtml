@@ -1,0 +1,13 @@
+﻿@model IEnumerable<prSchool.DTOs.StudentDto>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@{
+    foreach (var student in Model)
+    {
+        <p>@student.StudentID</p>
+    }
+}
