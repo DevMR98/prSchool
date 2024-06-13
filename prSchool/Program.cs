@@ -12,12 +12,12 @@ builder.Services.AddControllersWithViews();
 //inyeccion de las bd
 builder.Services.AddDbContext<SchoolContext>(opt =>
 {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("SchoolConnectionW"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("SchoolConnectionH"));
 });
 //inyeccion repository
 builder.Services.AddScoped<IStudentRepository<Student>, StudentRepository>();
 //inyeccion de service
-builder.Services.AddScoped<IStudentService<StudentDto,StudentInsertDto>, StudentService>();
+builder.Services.AddScoped<IStudentService<StudentDto,StudentInsertDto,StudentUpdateDto>, StudentService>();
 
 
 var app = builder.Build();
@@ -39,6 +39,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Student}/{action=Index}/{id?}");
+    pattern: "{controller=Student}/{action=Index}");
 
 app.Run();

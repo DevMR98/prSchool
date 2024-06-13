@@ -1,10 +1,12 @@
-﻿using prSchool.DTOs;
+﻿using AspNetCore;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using prSchool.DTOs;
 using prSchool.Models;
 using prSchool.Repository;
 
 namespace prSchool.Services
 {
-    public class StudentService : IStudentService<StudentDto, StudentInsertDto>
+    public class StudentService : IStudentService<StudentDto, StudentInsertDto, StudentUpdateDto>
     {
         private IStudentRepository<Student> _studentRepository;
         public StudentService(IStudentRepository<Student> studentRepository) {
@@ -25,7 +27,24 @@ namespace prSchool.Services
             });
         }
 
-        public async Task<StudentDto>Add(StudentInsertDto studentInsertDto)
+        public async Task<StudentDto> GetById(int studentID)
+        {
+            var item = await _studentRepository.GetById(studentID);
+            if (item != null)
+            {
+                var studentDto = new StudentDto
+                {
+                    StudentID = item.StudentID,
+                    AccountNumber = item.AccountNumber,
+                    Name = item.Name,
+                    LastName = item.LastName,
+                    email = item.email
+                };
+                return studentDto;
+            }
+            return null;
+        }
+        public async Task<StudentDto> Add(StudentInsertDto studentInsertDto)
         {
             var student = new Student
             {
@@ -47,8 +66,37 @@ namespace prSchool.Services
                 email = student.email
             };
 
-           return studentDto;
+            return studentDto;
 
         }
+        public async Task<StudentDto> Update(int studentID, StudentUpdateDto studentUpdateDto)
+        {
+            var student = await _studentRepository.GetById(studentID);
+
+            if (student != null)
+            {
+                student.AccountNumber = studentUpdateDto.AccountNumber;
+                student.Name = studentUpdateDto.Name;
+                student.LastName = studentUpdateDto.LastName;
+                student.email = studentUpdateDto.email;
+
+
+                _studentRepository.Update(student);
+                await _studentRepository.Save();
+
+                var studentDto = new StudentDto
+                {
+                    StudentID = student.StudentID,
+                    AccountNumber = student.AccountNumber,
+                    Name = studentUpdateDto.Name,
+                    LastName = studentUpdateDto.LastName,
+                    email = studentUpdateDto.email,
+                };
+
+                return studentDto;
+            }
+            return null;
+        }
+      
     }
 }
