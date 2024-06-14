@@ -20,12 +20,17 @@ namespace prSchool.Controllers
             var student = await _studentService.Get();
             return View(student);
         }
-
-        public async Task<ActionResult<StudentDto>> GetById(int studentID)
+        [HttpGet("edit/{id}")]
+        public async Task<ActionResult<StudentDto>> edit(int id)
         {
-            var student = await _studentService.GetById(studentID);
+            var student = await _studentService.GetById(id);
 
-            return View("edit",student);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return View(student);
 
         }
 
@@ -43,19 +48,15 @@ namespace prSchool.Controllers
             
         }
 
-
-        public async Task<ActionResult>Update(int studentID,StudentUpdateDto studentUpdateDto)
+        [HttpPost("edit/{id}")]
+        public async Task<ActionResult> Edit(int id,StudentUpdateDto student)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(studentUpdateDto);
-            }
-
-            var student = await _studentService.Update( studentID, studentUpdateDto);
+         
+            await _studentService.Update(id,student);
 
             return RedirectToAction(nameof(Index));
         }
 
-        
+
     }
 }

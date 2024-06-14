@@ -8,6 +8,7 @@ namespace prSchool.Services
         Task<T> GetById(int studentID);
         Task<T>Add(Ti entity);
         Task<T> Update(int studentID,Tu entity);
+        Task<T> Delete(int studentID);
 
     }
 }

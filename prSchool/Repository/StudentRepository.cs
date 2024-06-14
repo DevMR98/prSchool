@@ -24,6 +24,7 @@ namespace prSchool.Repository
             _context.Student.Entry(student).State=EntityState.Modified;
 
         }
+        public void Delete(Student student)=>_context.Student.Remove(student);
         public async Task Save()=>await _context.SaveChangesAsync();
     }
 }

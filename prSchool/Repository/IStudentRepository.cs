@@ -7,5 +7,6 @@
         Task Add(Tentity entity);
         void Update(Tentity entity);
         Task Save();
+        void Delete(Tentity entity);
     }
 }
