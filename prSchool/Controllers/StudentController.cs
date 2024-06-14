@@ -49,13 +49,20 @@ namespace prSchool.Controllers
         }
 
         [HttpPost("edit/{id}")]
-        public async Task<ActionResult> Edit(int id,StudentUpdateDto student)
+        public async Task<ActionResult> edit(int id,StudentUpdateDto student)
         {
          
             await _studentService.Update(id,student);
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<ActionResult<StudentDto>> Delete(int id)
+        {
+            await _studentService.Delete(id);
+            return RedirectToAction(nameof(Index));
+        }
+        
 
 
     }

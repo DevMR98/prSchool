@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 //inyeccion de las bd
 builder.Services.AddDbContext<SchoolContext>(opt =>
 {
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("SchoolConnectionH"));
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("SchoolConnectionW"));
 });
 //inyeccion repository
 builder.Services.AddScoped<IStudentRepository<Student>, StudentRepository>();

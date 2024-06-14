@@ -99,6 +99,32 @@ namespace prSchool.Services
             return null;
         }
 
+        public async Task<StudentDto> Delete(int StudentID)
+        {
+            var student = await _studentRepository.GetById(StudentID);
+
+            if (student!=null)
+            {
+                var studentDto = new StudentDto
+                {
+                    StudentID = student.StudentID,
+                    AccountNumber = student.AccountNumber,
+                    Name = student.Name,
+                    LastName = student.LastName,
+                    email = student.email,
+
+                };
+
+                _studentRepository.Delete(student);
+                await _studentRepository.Save();
+            }
+
+            return null;
+
+
+
+        }
+
         
       
     }
